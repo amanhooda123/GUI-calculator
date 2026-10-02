@@ -82,3 +82,11 @@ See [INITIAL_RESULTS.md](INITIAL_RESULTS.md) for the first real stock-history te
 ## Verification
 
 The deterministic checks cover delayed signals, ask/bid execution, two-sided fees, missing quotes, premium caps, terminal liquidation, invalid input and gap losses. Test quotes are synthetic fixtures for correctness only. They are never reported as real market performance.
+
+## Further research against the 6–7% monthly target
+
+The [expanded ETF experiment](expanded/README.md) tests nine frozen trend, RSI and momentum hypotheses with 2007–2012 training, 2013–2018 validation, and a reserved 2019–2024 historical test. See [verified ETF findings](EXPANDED_RESULTS.md): the selected strategy was positive historically but averaged about 0.71% per full month, with 24.92% drawdown. It did not meet the requested target, and doubled-cost drawdown exceeded 25%.
+
+The [historical options experiment](options-history/README.md) audits a public third-party SPY option-chain archive before testing the original 12 long-options candidates. Its upstream accuracy and point-in-time open interest are unverified. The [verified options test](OPTIONS_RESULTS.md) lost 10.11% (13.01% at doubled costs), so the selected strategy is rejected. Results, missing-data failures, and cash decisions are reported honestly; no live fills or broker execution are claimed.
+
+[Retrieved research notes](RETRIEVED_RESEARCH.md) distinguish the StockCharts/French pages actually read from Reddit search attempts denied with HTTP 403.
