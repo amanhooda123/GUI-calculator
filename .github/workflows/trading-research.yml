@@ -35,4 +35,5 @@ jobs:
           path: |
             options-research/reports/
             options-research/data/manifest.json
+            options-research/data/prices.csv
           if-no-files-found: ignore

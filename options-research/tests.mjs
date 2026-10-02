@@ -1,4 +1,4 @@
-import {assert, prices,quotes,backtest,signal,csv,select,date,research} from "./core.mjs";
+import {assert, prices,quotes,backtest,signal,csv,select,date,research,paperEligible} from "./core.mjs";
 function throws(fn, pattern) {
   let error; try { fn(); } catch(e) { error=e; }
   assert(error && pattern.test(error.message), "Expected error " + pattern);
@@ -70,6 +70,14 @@ export function runTests() {
     const a=research({prices:prices(rr)}),b=research({prices:prices(changed)});
     assert(JSON.stringify(a.training)===JSON.stringify(b.training),"Holdout leaked into training");
     assert(JSON.stringify(a.selected)===JSON.stringify(b.selected),"Holdout changed selection");
+  });
+  test("rejected strategy cannot generate watchlist",()=>{
+    assert(!paperEligible({selected:{name:"x"},decision:"REJECT: lost money on holdout"}),"Rejected gate");
+    assert(!paperEligible({selected:{name:"x"},decision:"INCONCLUSIVE: too few holdout trades"}),"Sample gate");
+    assert(!paperEligible({selected:null,decision:"RESEARCH CANDIDATE: test"}),"Cash gate");
+  });
+  test("research candidate may generate watchlist only",()=>{
+    assert(paperEligible({selected:{name:"x"},decision:"RESEARCH CANDIDATE: requires independent data checks and forward paper trading"}),"Candidate gate");
   });
   return count;
 }

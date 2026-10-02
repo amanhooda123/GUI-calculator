@@ -15,7 +15,7 @@ node cli.mjs download --symbols SPY,QQQ,RDDT --out data
 node cli.mjs research --prices data/prices.csv --start 2024-10-02 --source-label Yahoo-raw-OHLC --out reports
 ~~~
 
-Use a start date two years before your run date. Download includes 180 calendar days of indicator warmup. The historical downloader fetches completed daily stock sessions from Yahoo Finance's unofficial chart endpoint. It may be blocked or change. HTTP errors stop the run; there is no synthetic fallback. Raw stock prices exclude dividends, and any splits in the downloaded interval stop the run. Data manifest includes retrieval times, source URLs and hashes. Validate data independently before relying on it.
+Use a start date two years before your run date. Download includes 180 calendar days of indicator warmup. The historical downloader fetches completed daily stock sessions from Yahoo Finance's unofficial chart endpoint. It may be blocked or change. HTTP errors stop the run; there is no synthetic fallback. Raw stock prices exclude dividends, and any splits in the downloaded interval stop the run. Data manifest includes retrieval times, source URLs and hashes. Workflow artifacts include the input stock CSV for reproducibility. Validate data independently before relying on it.
 
 Open **reports/report.html** or read **reports/summary.md**. The JSON report contains training candidates, expanding walk-forward folds, a final 126-session holdout, a double-cost stress test, passive stock benchmarks, equity, and the trade ledger. If no strategy qualifies, the result is **cash**.
 
@@ -67,7 +67,7 @@ This is a fixed small hypothesis grid, not exhaustive optimization. Do not repea
 node cli.mjs scan --prices data/prices.csv --report reports-options/report.json --out reports/watchlist.json
 ~~~
 
-This produces a watchlist from completed sessions. It does **not** simulate a persistent brokerage account or execute orders. A live data feed, stateful paper broker, reconciled account ledger and a supported broker adapter are still needed before automation. Research cannot approve live deployment automatically.
+This produces a watchlist from completed sessions only when the report identifies a research candidate. Rejected, inconclusive, and cash outcomes disable scanning. It does **not** simulate a persistent brokerage account or execute orders. A live data feed, stateful paper broker, reconciled account ledger and a supported broker adapter are still needed before automation. Research cannot approve live deployment automatically.
 
 ## Brokerage and data status
 
@@ -77,7 +77,7 @@ Historical options bid/ask coverage commonly requires licensed data. Provider ca
 
 ## Research notes
 
-See [RESEARCH.md](RESEARCH.md) for hypotheses, limitations, and source links to verify. No successful options backtest has been run merely by publishing this code.
+See [INITIAL_RESULTS.md](INITIAL_RESULTS.md) for the first real stock-history test. See [RESEARCH.md](RESEARCH.md) for hypotheses, limitations, and source links to verify. No successful options backtest has been run merely by publishing this code.
 
 ## Verification
 

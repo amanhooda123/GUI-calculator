@@ -254,3 +254,8 @@ export function research(data, settings={}) {
       "Contract size can prevent trades in small accounts; cheap premium does not imply high win probability",
       "Universe selection and unmodeled corporate actions can bias results"]};
 }
+
+export function paperEligible(report) {
+  return !!report.selected && typeof report.decision === "string" &&
+    report.decision.startsWith("RESEARCH CANDIDATE:");
+}

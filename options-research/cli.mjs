@@ -2,7 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
-import {assert,csv,prices,quotes,research,backtest,signal,date} from "./core.mjs";
+import {assert,csv,prices,quotes,research,backtest,signal,date,paperEligible} from "./core.mjs";
 import {runTests} from "./tests.mjs";
 function options(args) {
   const result={};
@@ -150,7 +150,7 @@ async function scan(o) {
   assert(o.report,"Supply --report generated report.json");
   const report=JSON.parse(await fs.readFile(o.report,"utf8"));
   const {data}=await readData(o);
-  assert(report.selected,"Research selected cash: no strategy to scan");
+  assert(paperEligible(report),"Research rejected or inconclusive: watchlist generation is disabled");
   const candidates=[];
   for(const [symbol,a] of data.prices) {
     // Signals for the next session based on the latest completed observation.
