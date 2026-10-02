@@ -1,0 +1,39 @@
+name: Historical options research
+on:
+  push:
+    paths:
+      - "options-research/options-history/**"
+      - ".github/workflows/options-history.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Engine checks
+        working-directory: options-research
+        run: node cli.mjs test
+      - name: Install parquet readers
+        run: python -m pip install pandas==2.2.3 pyarrow==20.0.0
+      - name: Download and audit historical research archive
+        working-directory: options-research
+        run: python options-history/prepare.py
+      - name: Run frozen historical options experiment
+        working-directory: options-research
+        run: node --max-old-space-size=4096 options-history/run.mjs
+      - name: Store aggregate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-options-research
+          path: options-research/reports-options-real/
+          if-no-files-found: ignore
