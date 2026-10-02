@@ -1,0 +1,28 @@
+name: Expanded strategy research
+on:
+  push:
+    paths:
+      - "options-research/expanded/**"
+      - ".github/workflows/expanded-research.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Retrieve public research references
+        working-directory: options-research
+        run: node expanded/sources.mjs
+      - name: Store research evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: expanded-research
+          path: options-research/reports-expanded/
+          if-no-files-found: ignore
