@@ -35,8 +35,15 @@ for(const symbol of UNIVERSE){
   dividendEvents:Object.keys(r.events?.dividends ?? {}).length,splitEvents:Object.keys(r.events?.splits ?? {}).length});
 }
 const rawCSV="date,symbol,open,high,low,close\n"+input.sort().join("\n")+"\n";
-const data=prices(csv(rawCSV));
 await fs.writeFile(OUT+"/adjusted-prices.csv",rawCSV);
+let data;
+try {data=prices(csv(rawCSV));}
+catch(error) {
+ const invalid=csv(rawCSV).filter(p=>Number(p.low)>Math.min(Number(p.open),Number(p.close)) ||
+  Number(p.high)<Math.max(Number(p.open),Number(p.close)) || Number(p.high)<Number(p.low));
+ console.error("DATA_AUDIT "+JSON.stringify(invalid.slice(0,20)));
+ throw error;
+}
 const provenance={source:"Yahoo unofficial historical chart endpoint",basis:"Adjusted close / raw close applied to OHLC; total-return proxy",
  verifiedAgainstIndependentVendor:false,priceSHA256:hash(rawCSV),sources,
  codeCommit:process.env.GITHUB_SHA ?? null,generatedAt:new Date().toISOString()};
