@@ -178,3 +178,11 @@ export function experiment(data) {
    "No historical option quotes or option profit claims","USD, no FX/taxes/interest, no leverage",
    "Today's fixed ETF universe creates selection bias","Only one frozen winner tested; do not tune after opening results"]};
 }
+
+export function adjustedOHLC(row,adjustedClose) {
+ assert(row.close>0 && adjustedClose>0,"Invalid adjustment inputs");
+ const ratio=adjustedClose/row.close;
+ // Apply the same operation to every field. Mixing exact adjusted close with
+ // multiplied OHLC can violate equal high/close bounds by one floating-point ULP.
+ return Object.fromEntries(["open","high","low","close"].map(k=>[k,row[k]*ratio]));
+}

@@ -1,5 +1,5 @@
 import {assert,prices} from "../core.mjs";
-import {UNIVERSE,targets,rsiSeries,monthly,portfolio,choose} from "./portfolio.mjs";
+import {UNIVERSE,targets,rsiSeries,monthly,portfolio,choose,adjustedOHLC} from "./portfolio.mjs";
 function near(a,b){assert(Math.abs(a-b)<1e-7,"Expected "+a+" ~ "+b);}
 function fail(fn,re){let e;try{fn();}catch(x){e=x;}assert(e && re.test(e.message),"Expected "+re);}
 export function runPortfolioTests(){
@@ -75,6 +75,12 @@ export function runPortfolioTests(){
    {start:iso(260),end:iso(330)});
   assert(r.equity.every(e=>Number.isFinite(e.value) && e.value>0),"Finite equity");
   assert(r.fills.every(f=>f.quantity>0),"Positive quantities");
+ });
+ test("adjustment preserves equal OHLC bounds",()=>{
+  const p=adjustedOHLC({open:82.19,high:82.30,low:82.10,close:82.30},53.6724853515625);
+  near(p.high,p.close);
+  prices([{date:iso(0),symbol:"SPY",...p}]);
+  near(p.close,53.6724853515625);
  });
  return count;
 }

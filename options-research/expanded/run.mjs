@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import crypto from "node:crypto";
 import {assert,csv,prices,date} from "../core.mjs";
-import {experiment,UNIVERSE} from "./portfolio.mjs";
+import {experiment,UNIVERSE,adjustedOHLC} from "./portfolio.mjs";
 import {runPortfolioTests} from "./tests.mjs";
 const OUT="reports-expanded";
 const hash=s=>crypto.createHash("sha256").update(s).digest("hex");
@@ -27,7 +27,8 @@ for(const symbol of UNIVERSE){
   const ratio=adj[i]/q.close[i];
   assert(Number.isFinite(ratio) && ratio>0,"Invalid adjustment "+symbol+" "+d);
   minRatio=Math.min(minRatio,ratio);maxRatio=Math.max(maxRatio,ratio);
-  input.push([d,symbol,q.open[i]*ratio,q.high[i]*ratio,q.low[i]*ratio,adj[i]].join(","));
+  const p=adjustedOHLC(Object.fromEntries(["open","high","low","close"].map(k=>[k,q[k][i]])),adj[i]);
+  input.push([d,symbol,p.open,p.high,p.low,p.close].join(","));
   count++;
  }
  sources.push({symbol,url,retrievedAt:new Date().toISOString(),rawResponseSHA256:hash(raw),
