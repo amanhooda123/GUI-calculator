@@ -3,7 +3,7 @@ const sources=[
  {label:"Reddit r/algotrading mean reversion",url:"https://www.reddit.com/r/algotrading/search.json?q=RSI%20mean%20reversion&restrict_sr=on&sort=top&t=all&limit=8",kind:"reddit"},
  {label:"Reddit r/algotrading momentum",url:"https://www.reddit.com/r/algotrading/search.json?q=momentum%20ETF&restrict_sr=on&sort=top&t=all&limit=8",kind:"reddit"},
  {label:"Reddit r/options long options",url:"https://www.reddit.com/r/options/search.json?q=long%20calls%20strategy&restrict_sr=on&sort=top&t=all&limit=8",kind:"reddit"},
- {label:"Faber tactical allocation reference",url:"https://mebfaber.com/2013/02/01/a-quantitative-approach-to-tactical-asset-allocation/",kind:"html"},
+ {label:"StockCharts Faber sector rotation reference",url:"https://chartschool.stockcharts.com/table-of-contents/trading-strategies-and-models/trading-strategies/fabers-sector-rotation-trading-strategy",kind:"html"},
  {label:"StockCharts RSI2 reference",url:"https://chartschool.stockcharts.com/table-of-contents/trading-strategies-and-models/trading-strategies/rsi-2",kind:"html"},
  {label:"French academic data library",url:"https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",kind:"html"}
 ];

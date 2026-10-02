@@ -7,7 +7,7 @@ This specification is committed before the new historical test runs. The previou
 ## Fixed universe and periods
 
 - ETFs: SPY, QQQ, IWM, TLT, GLD, SHY, chosen in advance for equities, bonds, gold and short-duration Treasuries.
-- Source history: 2006-01-01 through 2026-10-01; at least 252 sessions of warmup.
+- Source history: 2005-07-01 through 2026-10-01; at least 252 sessions of warmup.
 - Training: 2007-01-01 through 2012-12-31.
 - Validation for algorithmic selection: 2013-01-01 through 2018-12-31.
 - Reserved historical test: 2019-01-01 through 2024-10-01.

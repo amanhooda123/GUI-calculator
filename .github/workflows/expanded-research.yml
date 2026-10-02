@@ -19,6 +19,12 @@ jobs:
       - name: Retrieve public research references
         working-directory: options-research
         run: node expanded/sources.mjs
+      - name: Engine checks
+        working-directory: options-research
+        run: node cli.mjs test
+      - name: Run frozen long-history ETF experiment
+        working-directory: options-research
+        run: node expanded/run.mjs
       - name: Store research evidence
         if: always()
         uses: actions/upload-artifact@v4
